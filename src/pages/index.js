@@ -57,7 +57,7 @@ export default function Home() {
           />
         </Head>
 
-        <div className="py-3 px-4 bg-black dark:bg-black flex justify-between items-center">
+        <div className="py-2 px-4 bg-black dark:bg-black flex justify-between items-center">
           <div className="flex items-center"><DarkModeToggle /></div>
           <div className="flex-grow pl-10 py-2 md:pl-48"><SearchBar onSearch={handleSearch} /></div>
         </div>

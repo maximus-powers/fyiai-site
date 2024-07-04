@@ -23,7 +23,7 @@
 }
 
 .theDailyByte {
-  font-size: calc(3rem - 2pt); /* Adjust the font size as needed */
+  font-size: calc(3rem - 3pt); /* Adjust the font size as needed */
 }
 
 /* Text Styles */

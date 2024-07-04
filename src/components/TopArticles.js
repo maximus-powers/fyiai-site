@@ -30,7 +30,7 @@ const TopArticles = () => {
       const baseFontSize = 3; // base font size in rem
       const maxFontSize = 4; // max font size in rem
       const minFontSize = 1.2; // min font size in rem
-      const lengthThreshold = 45; // adjust this value as needed
+      const lengthThreshold = 40; // adjust this value as needed
       const newFontSize = Math.max(minFontSize, Math.min(baseFontSize - (headlineLength / lengthThreshold), maxFontSize));
       headlineRef.current.style.fontSize = `${newFontSize}rem`;
     }
@@ -52,7 +52,7 @@ const TopArticles = () => {
       <div className="flex">
         <div className="w-full h-full pr-5 pt-2">
           {gif_url && (
-            <div className="w-44 h-44 overflow-hidden relative">
+            <div className="w-36 h-36 overflow-hidden relative">
               <iframe 
                 src={gif_url} 
                 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover"
