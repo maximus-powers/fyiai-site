@@ -59,63 +59,67 @@ export default function Home() {
 
         <div className="py-3 px-4 bg-black dark:bg-black flex justify-between items-center">
           <div className="flex items-center"><DarkModeToggle /></div>
-          <div className="flex-grow pl-10 py-2"><SearchBar onSearch={handleSearch} /></div>
+          <div className="flex-grow pl-10 py-2 md:pl-48"><SearchBar onSearch={handleSearch} /></div>
         </div>
 
         <main className="container mx-auto px-4 py-3">
           <HeroSection />
-          {showResults ? (
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">Search Results</h3>
-                <button
-                  className="text-red-400"
-                  onClick={handleCloseResults}
-                >
-                  <i className="fas fa-times"></i> Close
-                </button>
-              </div>
-              <div className="mt-4">
-                {isLoading ? (
-                  <div className="mt-5 px-3 pb-48">
-                    <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
-                      <Skeleton height="18px" width="100%" />
-                      <Skeleton height="18px" width="78%" />
-                      <Skeleton height="13px" width="25%" />
-                    </VStack>
-                    <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
-                      <Skeleton height="18px" width="100%" />
-                      <Skeleton height="18px" width="78%" />
-                      <Skeleton height="13px" width="25%" />
-                    </VStack>
-                    <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
-                      <Skeleton height="18px" width="100%" />
-                      <Skeleton height="18px" width="78%" />
-                      <Skeleton height="13px" width="25%" />
-                    </VStack>
-                  </div>
-                ) : (
-                  <ul className="list-disc px-3 space-y-2">
-                    {searchResults
-                      .filter(result => result.title && result.source) // Filter results that have both title and source
-                      .map((result, index) => (
-                        <div key={index} className="border-b border-zinc-400 pb-5 mb-2">
-                          <a href={result.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                            <h4 className="text-lg font-semibold text-zinc-600 dark:text-zinc-200">{result.title}</h4>
-                            <p className="text-gray-400">{result.source}</p>
-                          </a>
-                        </div>
-                      ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          ) : (
-            <>
+          <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4">
+            <div className="col-span-1 md:col-span-3 md:col-start-2 md:pb-10">
               <TopArticles />
-              <TrendingTopics />
-            </>
-          )}
+            </div>
+            <div className="col-span-1 md:col-span-3">
+              {showResults ? (
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-2xl font-bold">Search Results</h3>
+                    <button
+                      className="text-red-400"
+                      onClick={handleCloseResults}
+                    >
+                      <i className="fas fa-times"></i> Close
+                    </button>
+                  </div>
+                  <div className="mt-4">
+                    {isLoading ? (
+                      <div className="mt-5 px-3 pb-48">
+                        <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                          <Skeleton height="18px" width="100%" />
+                          <Skeleton height="18px" width="78%" />
+                          <Skeleton height="13px" width="25%" />
+                        </VStack>
+                        <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                          <Skeleton height="18px" width="100%" />
+                          <Skeleton height="18px" width="78%" />
+                          <Skeleton height="13px" width="25%" />
+                        </VStack>
+                        <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                          <Skeleton height="18px" width="100%" />
+                          <Skeleton height="18px" width="78%" />
+                          <Skeleton height="13px" width="25%" />
+                        </VStack>
+                      </div>
+                    ) : (
+                      <ul className="list-disc px-3 space-y-2">
+                        {searchResults
+                          .filter(result => result.title && result.source) // Filter results that have both title and source
+                          .map((result, index) => (
+                            <div key={index} className="border-b border-zinc-400 pb-5 mb-2">
+                              <a href={result.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                                <h4 className="text-lg font-semibold text-zinc-600 dark:text-zinc-200">{result.title}</h4>
+                                <p className="text-gray-400">{result.source}</p>
+                              </a>
+                            </div>
+                          ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <TrendingTopics />
+              )}
+            </div>
+          </div>
         </main>
 
         <footer className="p-4 bg-black text-center text-zinc-300">

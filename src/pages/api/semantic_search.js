@@ -3,7 +3,7 @@ export default async function handler(req, res) {
       const { query, num_results } = req.body;
   
       try {
-        const response = await fetch('http://127.0.0.1:5000/semantic_search', {
+        const response = await fetch('http://fyiai-api.maximus-powers.com/semantic_search', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
