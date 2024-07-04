@@ -64,10 +64,7 @@ export default function Home() {
 
         <main className="container mx-auto px-4 py-3">
           <HeroSection />
-          <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4">
-            <div className="col-span-1 md:col-span-3 md:col-start-2 md:pb-10">
-              <TopArticles />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-8 gap-4">
             <div className="col-span-1 md:col-span-3">
               {showResults ? (
                 <div>
@@ -116,7 +113,12 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <TrendingTopics />
+                <div>
+                  <div className="col-span-1 md:col-span-3 md:col-start-2 md:pb-10">
+                      <TopArticles />
+                  </div>
+                  <TrendingTopics />
+                </div>
               )}
             </div>
           </div>

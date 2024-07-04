@@ -22,6 +22,10 @@
   }
 }
 
+.theDailyByte {
+  font-size: calc(3rem - 2pt); /* Adjust the font size as needed */
+}
+
 /* Text Styles */
 h1 {
   @apply font-rochester;
