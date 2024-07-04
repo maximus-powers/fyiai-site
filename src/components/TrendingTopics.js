@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useColorMode, Box, Skeleton, VStack } from '@chakra-ui/react';
 
 const TrendingTopics = () => {
   const [topics, setTopics] = useState([]);
@@ -7,6 +8,8 @@ const TrendingTopics = () => {
   const [activeSubtopics, setActiveSubtopics] = useState([]);
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { colorMode } = useColorMode(); // Access the current color mode
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -29,6 +32,7 @@ const TrendingTopics = () => {
   }, []);
 
   const fetchArticles = async (query) => {
+    setIsLoading(true);
     try {
       const response = await fetch('/api/semantic_search', {
         method: 'POST',
@@ -49,6 +53,7 @@ const TrendingTopics = () => {
       console.error('Error fetching articles:', error.message);
       setError(error.message);
     }
+    setIsLoading(false);
   };
 
   const removeDuplicateArticles = (articles) => {
@@ -84,10 +89,10 @@ const TrendingTopics = () => {
     fetchArticles(subtopic);
   };
 
-  const buttonColors = [
-    'bg-red-300',
+  const lightButtonColors = [
     'bg-blue-300',
     'bg-green-300',
+    'bg-red-300',
     'bg-yellow-300',
     'bg-purple-300',
     'bg-pink-300',
@@ -95,33 +100,50 @@ const TrendingTopics = () => {
     'bg-teal-300',
   ];
 
+  const darkButtonColors = [
+    'bg-blue-500',
+    'bg-green-500',
+    'bg-red-500',
+    'bg-yellow-500',
+    'bg-purple-500',
+    'bg-pink-500',
+    'bg-indigo-500',
+    'bg-teal-500',
+  ];
+
+  const filteredArticles = articles.filter(article => article.title && article.source).slice(0, 3);
+
   if (error) {
     return <div className="p-4 bg-red-100 text-red-800 rounded">{`Error: ${error}`}</div>;
   }
 
   return (
-    <section className="p-3">
-      <h2 className="text-3xl font-bold mb-4">🔥Trending Words</h2>
-      <div className="space-y-4">
+    <section className="p-3 pt-8">
+      <h2 className="text-3xl font-bold mb-4">🔥Trending Topics</h2>
+      <div className="space-y-4 pb-8">
         {topics.map((topic, topicIndex) => (
           <div key={topicIndex} className="rounded">
             <div
               className="text-xl font-semibold cursor-pointer flex items-center"
               onClick={() => handleTopicClick(topicIndex, topic.topic)}
             >
-              <span className="mr-2">
+              <span className="mr-2 dark:text-zinc-400 text-zinc-600">
                 {activeTopic === topicIndex ? <FaChevronDown /> : <FaChevronRight />}
               </span>
-              <span className="text-2xl">{topic.topic}</span>
+              <span className="text-2xl dark:text-zinc-300">{topic.topic}</span>
             </div>
             <div className="flex flex-wrap mt-2 space-x-1">
               {topic.subtopics.map((subtopic, subIndex) => (
                 <button
                   key={subIndex}
-                  className={`cursor-pointer text-sm px-3 py-1 my-1 rounded-full border ${
+                  className={`cursor-pointer text-sm px-3 py-1 my-1 rounded-full border dark:border dark:border-black dark:border-1 ${
                     activeSubtopics[topicIndex] === subIndex
                       ? 'bg-black text-white font-bold'
-                      : `${buttonColors[subIndex % buttonColors.length]} dark:bg-gray-700 text-black dark:text-white`
+                      : `${
+                          colorMode === 'light'
+                            ? darkButtonColors[subIndex % darkButtonColors.length]
+                            : lightButtonColors[subIndex % lightButtonColors.length]
+                        } text-black dark:text-zinc-900`
                   }`}
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent triggering the parent click
@@ -141,15 +163,35 @@ const TrendingTopics = () => {
                 </p>
                 <div className="mt-4">
                   <h3 className="text-2xl font-bold mb-2">Related Articles</h3>
-                  <ul className="list-disc pl-5 space-y-2">
-                    {Array.isArray(articles) && articles.map((article, index) => (
-                      <li key={index} className="border-b pb-2 mb-2">
-                        <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                          <h4 className="text-lg font-semibold">{article.title}</h4><h4 className="text-grey-400">{article.source}</h4>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  {isLoading ? (
+                    <div className="mt-5 px-3">
+                      <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                        <Skeleton height="18px" width="100%" />
+                        <Skeleton height="18px" width="78%" />
+                        <Skeleton height="13px" width="25%" />
+                      </VStack>
+                      <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                        <Skeleton height="18px" width="100%" />
+                        <Skeleton height="18px" width="78%" />
+                        <Skeleton height="13px" width="25%" />
+                      </VStack>
+                      <VStack spacing={2} alignItems="flex-start" className="border-b border-zinc-400 pb-5 mt-3">
+                        <Skeleton height="18px" width="100%" />
+                        <Skeleton height="18px" width="78%" />
+                        <Skeleton height="13px" width="25%" />
+                      </VStack>
+                    </div>
+                  ) : (
+                    <div className="list-disc space-y-2 pt-1">
+                      {Array.isArray(filteredArticles) && filteredArticles.map((article, index) => (
+                        <div key={index} className="border-b border-zinc-400 pb-2 mb-2">
+                          <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                            <h4 className="text-lg font-semibold dark:text-zinc-300">{article.title}</h4><h4 className="text-grey-400">{article.source}</h4>
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             )}

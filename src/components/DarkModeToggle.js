@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Switch, Flex, FormLabel, Box, useColorMode } from '@chakra-ui/react';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 const DarkModeToggle = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
@@ -25,13 +28,38 @@ const DarkModeToggle = () => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    toggleColorMode();
   };
 
   return (
-    <button onClick={toggleTheme} className="p-2 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded">
-      {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-    </button>
+    <Flex align="center">
+      <Box position="relative">
+        <Switch
+          id="dark-mode-toggle"
+          isChecked={theme === 'dark'}
+          onChange={toggleTheme}
+          colorScheme="green"
+          size="lg"
+        />
+        <Box
+          position="absolute"
+          top="50%"
+          left={theme === 'dark' ? '5px' : '5px'}
+          transform="translateY(-58%)"
+          transition="left 0.2s"
+          onClick={toggleTheme}
+          cursor="pointer"
+        >
+          {theme === 'dark' ? (
+            <MoonIcon color="black" />
+          ) : (
+            <SunIcon color="yellow.400" />
+          )}
+        </Box>
+      </Box>
+    </Flex>
   );
 };
 
