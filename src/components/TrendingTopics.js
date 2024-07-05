@@ -158,8 +158,8 @@ const TrendingTopics = () => {
               <div className="mt-2">
                 <p className="mt-2">
                   {activeSubtopics[topicIndex] === null
-                    ? topic.news_summary
-                    : topic.subtopics[activeSubtopics[topicIndex]].definition}
+                    ? <p><p className="font-bold">Why it's in the news today:</p> {topic.news_summary}</p>
+                    : <p><p className="font-bold">Definition:</p> {topic.subtopics[activeSubtopics[topicIndex]].definition}</p>}
                 </p>
                 <div className="mt-4">
                   <h3 className="text-2xl font-bold mb-2">Related Articles</h3>
