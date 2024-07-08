@@ -50,7 +50,7 @@ const TopArticles = () => {
   return (
     <section className="px-2">
       <div className="flex">
-        <div className="w-full h-full pr-5 pt-2">
+        <div className="h-full pr-5 pt-2">
           {gif_url && (
             <div className="w-36 h-36 overflow-hidden relative">
               <iframe 
@@ -63,7 +63,7 @@ const TopArticles = () => {
             </div>
           )}
         </div>
-        <div className="w-full md:mt-0">
+        <div className="w-1/2 md:mt-0">
           {main_headline && (
             <a href={main_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
               <h2 ref={headlineRef} className="text-black leading-tight dark:text-white">{main_headline}</h2>
